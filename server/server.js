@@ -24,8 +24,14 @@ app.get('/', (req, res) => {
 
 app.use('/workout', workoutRouter);
 
+//end point for signups
+app.post('/signup', (req, res) => {
 
+})
+//end point for logins
+app.get('/login', (req, res) => {
 
+})
 
 
  
