@@ -1,11 +1,26 @@
 {
+  "name": "fitness-app",
+  "version": "1.0.0",
+  "description": "Workout tracker for exercising",
+  "main": "server.js",
+  "proxy": "http://localhost:3000",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open --hot & nodemon ./src/server.js",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "Liam Roh, Jordan Querubin, Kurt Bulau, Duke Ahn",
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
     "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
-    "webpack": "^5.88.2"
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
