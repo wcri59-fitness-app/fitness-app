@@ -10,6 +10,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
+// require routers
+const workoutRouter = require("./router/workoutRouter")
+
 // we only need this initial get request to the server to send our page to the client.
 // all other routing to pages will be done on the front end
 // without this code the frontend won't load the index.html
@@ -19,19 +22,13 @@ app.get('/', (req, res) => {
 
 // all other route handling is done below for getting data, deleting data, updating data, etc.
 
+app.use('/workout', workoutRouter);
 
 
 
 
 
-
-
-
-
-
-
-
-
+ 
 
 
 
