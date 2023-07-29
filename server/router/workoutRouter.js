@@ -21,12 +21,21 @@ router.get("/", (req,res) => {
 // authentication?
 
 router.post()
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
     try {
         const currentDate = new Date().toISOString().split('T')[0];
         const workoutQuery = "INSERT INTO Workouts (user_id, workout_date) VALUES ($1, $2)"
         const workoutValues = [userId, currentDate]
-        const workoutResult = db.query(workoutQuery, workoutValues)
+        const workoutResult = await db.query(workoutQuery, workoutValues)
+
+        const {sets, reps} = req.body;
+        const SARQuery = "INSERT INTO SetAndReps (Sets, reps) values ($1, $2)";
+        const SARResult = await db.query(SARQuery, [sets, reps]);
+
+        const {exercise} = req.body;
+        const ExerciseQuery = `INSERT INTO Exercises (exercise) values (${exercise})`
+        const ExerciseResult = await db.query(ExerciseQuery)
+        
        return next();
     } catch (error) {
         return next({
