@@ -10,7 +10,8 @@ export const workoutSlice = createSlice({
     initialState,
     reducers: {
       addWorkout: (state) => {
-
+        //change current workout state
+        //make db request here
       },
       deleteWorkout: (state) => {
 
