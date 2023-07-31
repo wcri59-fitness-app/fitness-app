@@ -28,6 +28,7 @@ app.get('/', async (req, res) => {
 app.use('/workout', workoutRouter);
 
 //end point for signups
+// do we need routers for signup and login? 
 app.post('/signup', (req, res) => {
 
 })
