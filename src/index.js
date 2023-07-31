@@ -1,19 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/App.js';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes } from 'react-router-dom';
 import './styles/styles.css';
 import store from './store.js';
 import { Provider } from 'react-redux';
-
-import WorkoutCard from './components/WorkoutCard.js';
+import NewRoutes from './routes.js';
 const root = ReactDOM.createRoot(
     document.getElementById('root')
 );
 
+
+
+
 root.render(  
     <BrowserRouter>
         <Provider store={store}>
-            <App />
+            <Routes>
+            {NewRoutes}
+            </Routes>
         </Provider>
     </BrowserRouter>);
