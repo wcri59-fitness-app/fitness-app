@@ -1,5 +1,7 @@
 const express = require('express');
 path = require('path');
+const db = require ('./models/TaskModel');
+
 const app = express();
 //to parse cookies if we want to add an authentication portion
 const cookieParser = require('cookie-parser');
@@ -16,7 +18,8 @@ const workoutRouter = require("./router/workoutRouter")
 // we only need this initial get request to the server to send our page to the client.
 // all other routing to pages will be done on the front end
 // without this code the frontend won't load the index.html
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  // const test = await db.query('SELECT * FROM Workouts');
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });
 

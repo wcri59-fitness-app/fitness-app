@@ -13,7 +13,9 @@ const db = require ('../models/TaskModel');
 // users are connected to the workouts on th eworkout table.
 // just need to know how the data is sent to backend so that way we can send it to db and send to front end
 
-router.get("/", (req,res) => {
+router.get("/", async (req,res) => {
+    // testing to see if the db connects
+    const test = await db.query('SELECT * FROM Workouts');
     res.status(200).json()
 })
 
