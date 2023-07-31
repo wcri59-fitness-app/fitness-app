@@ -16,8 +16,10 @@ const root = ReactDOM.createRoot(
 root.render(  
     <BrowserRouter>
         <Provider store={store}>
+            <div id='header'><h1 className='headerText'>///CODEFIT///</h1></div>
             <Routes>
             {NewRoutes}
             </Routes>
+            <div id='footer'><p className='footerText'>Created by Liam, Kurt, Jordan, Duke</p></div>
         </Provider>
     </BrowserRouter>);
