@@ -12,6 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
+// require controllers here
+const cookieController = require("./controllers/cookieControllers");
+const userController = require ("./controllers/userController");
+
 // require routers
 const workoutRouter = require("./router/workoutRouter")
 
