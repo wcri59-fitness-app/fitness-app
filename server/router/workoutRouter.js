@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
     // testing to see if the db connects
     // const test = await db.query('SELECT * FROM Workouts');
     try {
-        const {user_id} = req.body;
+        const {user_id} = req.params;
         const exercises = await db.query(`SELECT user_id, Workouts.workout_id FROM Workouts LEFT JOIN WorkoutExercise ON Workouts.workout_id = WorkoutExercise.workout_id WHERE Workouts.workout_id = ${user_id}`);
         res.status(200).json(exercises.rows);
     }
