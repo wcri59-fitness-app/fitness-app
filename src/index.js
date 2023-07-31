@@ -6,6 +6,7 @@ import './styles/styles.css';
 import store from './store.js';
 import { Provider } from 'react-redux';
 
+import WorkoutCard from './components/WorkoutCard.js';
 const root = ReactDOM.createRoot(
     document.getElementById('root')
 );

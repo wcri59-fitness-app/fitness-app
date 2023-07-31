@@ -34,7 +34,7 @@ export const workoutSlice = createSlice({
         // })
         // .then(res => res.json())
         // .then(data => console.log(data))
-        // .catch(err => console.log('DeleteCharacter fetch /someroute/: ERROR: ', err));
+        // .catch(err => console.log('DeleteCharacter fetch /someroute/: ERROR: ', err));        // initialState.currentWorkout.push(state)
       },
       deleteExercise: (state) => {
 
