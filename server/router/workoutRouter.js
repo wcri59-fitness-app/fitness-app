@@ -55,31 +55,52 @@ router.get("/", async (req, res, next) => {
 // router.post()
 router.post("/add", async (req, res, next) => {
     try {
-        console.log(req.body);
-        console.log(req.params);
-        const {userId} = req.body;
+        const { userID } = req.cookies;
+        const { addObj } = req.body;
+        const workoutName = Object.keys(addObj);
+
         const currentDate = new Date().toISOString().split('T')[0];
-        const workoutQuery = "INSERT INTO Workouts (user_id, workout_date) VALUES ($1, $2)";
+        const workoutQuery = "INSERT INTO Workouts (user_id, workout_date, workout_name) VALUES ($1, $2, $3) RETURNING workout_id";
         const workoutValues = [userId, currentDate];
-        const workoutResult = await db.query(workoutQuery, workoutValues);
-        console.log(workoutResult);
+        const workoutResult = await db.query(workoutQuery, workoutValues, workoutName);
+        const workout_id = workoutResult.rows[0].workout_id;
 
-        const {sets, reps} = req.body;
-        const SARQuery = "INSERT INTO SetAndReps (sets, reps) values ($1, $2)";
-        const SARResult = await db.query(SARQuery, [sets, reps]);
-        console.log(SARResult);
+        const sarIDs = [];
+        const exerciseIDs = [];
 
-        const {exercise} = req.body;
-        const ExerciseQuery = `INSERT INTO Exercise (exercise) values ($1)`;
-        const ExerciseResult = await db.query(ExerciseQuery, [exercise]);
-        console.log(ExerciseResult);
+        addObj[workoutName].forEach(async (exerciseObj) => {
+            const { exerciseName, reps, sets } = exerciseObj;
 
-        const { workout_id, exercise_id, sar_id, weight_used } = req.body;
-        const workoutExerciseQuery = `INSERT INTO WorkoutExercise (workout_id, exercise_id, sar_id, weight_used) VALUES ($1, $2, $3, $4)`;
-        const workoutExerciseResult = await db.query(workoutExerciseQuery, [workout_id, exercise_id, sar_id, weight_used]);
-        console.log(workoutExerciseResult);
+            const SARQuery = "INSERT INTO SetAndReps (sets, reps) VALUES ($1, $2) RETURNING sar_id";
+            const SARResult = await db.query(SARQuery, [sets, reps]);
+            const sar_id = SARResult.rows[0].sar_id;
+
+            const ExerciseQuery = `INSERT INTO Exercise (exercise) VALUES ($1) RETURNING exercise_id`;
+            const ExerciseResult = await db.query(ExerciseQuery, [exerciseName]);
+            const exercise_id = ExerciseResult.rows[0].exercise_id;
+
+            const workoutExerciseQuery = `INSERT INTO WorkoutExercise (workout_id, exercise_id, sar_id) VALUES ($1, $2, $3, $4)`;
+            const workoutExerciseResult = await db.query(workoutExerciseQuery, [workout_id, exercise_id, sar_id]);
+        });
+
+        // console.log(workoutResult);
+
+        // const {sets, reps} = req.body;
+        // const SARQuery = "INSERT INTO SetAndReps (sets, reps) values ($1, $2)";
+        // const SARResult = await db.query(SARQuery, [sets, reps]);
+        // console.log(SARResult);
+
+        // const {exercise} = req.body;
+        // const ExerciseQuery = `INSERT INTO Exercise (exercise) values ($1)`;
+        // const ExerciseResult = await db.query(ExerciseQuery, [exercise]);
+        // console.log(ExerciseResult);
+
+        // const { workout_id, exercise_id, sar_id, weight_used } = req.body;
+        // const workoutExerciseQuery = `INSERT INTO WorkoutExercise (workout_id, exercise_id, sar_id, weight_used) VALUES ($1, $2, $3, $4)`;
+        // const workoutExerciseResult = await db.query(workoutExerciseQuery, [workout_id, exercise_id, sar_id, weight_used]);
+        // console.log(workoutExerciseResult);
         
-        res.status(200).json(workoutExerciseResult.rows);
+        res.redirect(200,'http://localhost:3000/Home');
         
        return next();
     } catch (error) {
@@ -93,10 +114,10 @@ router.post("/add", async (req, res, next) => {
 router.delete("/delete", async (req, res, next) => {
     try {
         const {workout_id} = req.params;
-        const deleteQueryWorkouts = `DELETE FROM Workouts WHERE workout_id = ${workout_id}`; // removing workout from the workout table
-        const deleteResultWorkouts = await db.query(deleteQueryWorkouts);
         const deleteQueryWorkoutExercise = `DELETE FROM WorkoutExercise WHERE workout_id = ${workout_id}`; // removing workout from the workout table
         const deleteResultWorkoutExercise = await db.query(deleteQueryWorkoutExercise);
+        const deleteQueryWorkouts = `DELETE FROM Workouts WHERE workout_id = ${workout_id}`; // removing workout from the workout table
+        const deleteResultWorkouts = await db.query(deleteQueryWorkouts);
         const ret = deleteResultWorkouts.rows.concat(deleteResultWorkoutExercise.rows);
         res.status(200).json(ret);
         return next();
