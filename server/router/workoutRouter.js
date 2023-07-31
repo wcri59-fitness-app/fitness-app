@@ -61,8 +61,8 @@ router.post("/add", async (req, res, next) => {
 
         const currentDate = new Date().toISOString().split('T')[0];
         const workoutQuery = "INSERT INTO Workouts (user_id, workout_date, workout_name) VALUES ($1, $2, $3) RETURNING workout_id";
-        const workoutValues = [userId, currentDate];
-        const workoutResult = await db.query(workoutQuery, workoutValues, workoutName);
+        const workoutValues = [userID, currentDate, workoutName];
+        const workoutResult = await db.query(workoutQuery, workoutValues);
         const workout_id = workoutResult.rows[0].workout_id;
 
         const sarIDs = [];
