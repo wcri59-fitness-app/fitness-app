@@ -6,9 +6,9 @@ const pool = new Pool({
   connectionString: myURI,
 });
 
-pool.on('connect', () => {
-  console.log('Connected to PostgreSQL database');
-});
+// pool.on('connect', () => {
+//   console.log('Connected to PostgreSQL database');
+// });
 
 module.exports = {
   query: (text, params, callback) => {
