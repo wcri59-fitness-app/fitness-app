@@ -4,12 +4,16 @@ import App from './components/App.js';
 import { BrowserRouter } from 'react-router-dom';
 import './styles/styles.css';
 import store from './store.js';
+import { Provider } from 'react-redux';
+
 import WorkoutCard from './components/WorkoutCard.js';
 const root = ReactDOM.createRoot(
     document.getElementById('root')
 );
 
 root.render(  
-    <BrowserRouter store={store}>
-        <WorkoutCard />
+    <BrowserRouter>
+        <Provider store={store}>
+            <App />
+        </Provider>
     </BrowserRouter>);
