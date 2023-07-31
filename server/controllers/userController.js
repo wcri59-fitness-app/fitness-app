@@ -22,13 +22,13 @@ userController.verifyUser = (req, res, next) => {
 const {username, password} = req.body;
 const loginQuery = 'SELECT * FROM Users WHERE username = $1 AND password = $2';
 db.query(loginQuery, [username, password])
-  .then((data) => {
-    if (data === null) {
+  .then((loginUser) => {
+    if (loginUser === null) {
       res.locals.user = 'Username and Password Not Found';
       return next();
     } else {
-      res.locals.data = data;
-      console.log(data);
+      console.log(loginUser.rows[0])
+      res.locals.userID = loginUser.rows[0].user_id;
       return next();
     }
   })

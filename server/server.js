@@ -33,45 +33,14 @@ app.use('/workout', workoutRouter);
 
 //end point for signups
 // do we need routers for signup and login? 
-app.post('/signup', (req, res) => {
-  const {username, password} = req.body;
-   const signupQuery ='INSERT INTO Users (username, password) VALUES ($1, $2)';
-  db.query(signupQuery, [username, password])
-    .then((data) => {
-      res.locals.id = data;
-      console.log(data)
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: 'Error occured in UserController.createUser',
-        message: {err: 'wrong information passed in'},
-      });
-    });
+app.post('/signup', userController.createUser, (req, res) => {
+res.sendStatus(200)
 })
 
 //end point for logins
 // logging in and out? how to make persisting session?
-app.get('/login', (req, res) => {
-const {username, password} = req.body;
-const loginQuery = 'SELECT * FROM Users WHERE username = $1 AND password = $2';
-db.query(loginQuery, [username, password])
-  .then((data) => {
-    if (data === null) {
-      res.locals.user = "Username and Password Not Found";
-      return next()
-    } else {
-    res.locals.data = data;
-    console.log(data);
-    return next();
-    }
-  })
-  .catch((err) => {
-    return next({
-      log: 'Error occured in UserController.createUser',
-      message: {err: 'wrong information passed in'},
-    });
-  });
+app.get('/login', userController.verifyUser, (req, res) => {
+res.sendStatus(200)
 })
 
 
