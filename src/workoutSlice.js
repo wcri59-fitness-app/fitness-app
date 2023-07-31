@@ -16,7 +16,7 @@ export const workoutSlice = createSlice({
 
       },
       addExercise: (state) => {
-
+        // initialState.currentWorkout.push(state)
       },
       deleteExercise: (state) => {
 
