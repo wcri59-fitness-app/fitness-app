@@ -11,7 +11,7 @@ function getName(id, userId){
   // fetch('/getCard',{method:"POST", body: {/*INSERT SQL QUERY HERE USING ID*/}, headers:{"Content-Type": "application/json"}})
 }
   
-function displayInfo(userId, array){
+function displayInfo(array){
   /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //  This function expects to receive a workout ID.
   //  It will then make a request to the backend database and gather the workout exercises.
@@ -24,7 +24,7 @@ function displayInfo(userId, array){
   document.getElementById(id).style.display = 'flex';
   document.getElementById(id).innerHTML = 'Loading. . . '
   populateCard(array);
-  // exerciseData = populateCard(exerciseArr)
+  return
 }
 
 function populateCard(array){
@@ -37,6 +37,7 @@ function populateCard(array){
   array.map((el) => {
     console.log(el)
       document.getElementById('cardContainer').innerHTML += 
+      //this just adds an exercise element for each element. &nbsp; is just a way to hardcode spaces
 `        <div class=exercise> <strong>${el.name.toUpperCase()}</strong> <div class=randp><div class=reps><strong>Reps</strong>: ${el.reps} </div><div>&nbsp;&nbsp;x&nbsp;&nbsp;</div><div class=sets><strong>Sets</strong>: ${el.sets}</div></div></div> `
     }
   )
@@ -46,16 +47,15 @@ function collapseCard(){
   document.getElementById('cardContainer').style.display = 'none';
 }
 
-const WorkoutCard = (array) => {
-  let exerciseData;
-  array = [{name: 'pushup',reps: 20,sets: 3},{name: 'pullup', reps:5, sets:3},{name:"situps", reps:40, sets:3}]
-//placeholder workout name
-const workoutName = "Simple"
+const WorkoutCard = (props) => {
+  const { array } = props;
+  const { index } = props;
+  const workoutName = `Workout ${index}`
 // const cardId = `card${id}`
   return(
-    <div className="workoutCard" id="cards" onMouseEnter={() => displayInfo('cards', array)} onMouseLeave={() => collapseCard()}>
+    <div className="workoutCard" id="cards" onMouseEnter={() => displayInfo(array)} onMouseLeave={() => collapseCard()}>
       <h1 className="cardName">{workoutName}</h1>
-      <div id="cardContainer" onClick={() => console.log(cards)}>
+      <div id="cardContainer">
       </div>
     </div>
   )
