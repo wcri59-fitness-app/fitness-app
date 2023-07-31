@@ -1,5 +1,7 @@
 //should render a workout that exists within totalWorkout state array
 import React from "react";
+import { useDispatch } from "react-redux";
+import { deleteWorkout } from "../workoutSlice";
 let cards = []
 
 function getName(id, userId){
@@ -47,16 +49,18 @@ function collapseCard(){
   document.getElementById('cardContainer').style.display = 'none';
 }
 
-const WorkoutCard = (props) => {
-  const { array } = props;
-  const { index } = props;
-  const workoutName = `Workout ${index}`
-// const cardId = `card${id}`
+const WorkoutCard = ({array, name}) => {
+  const dispatch = useDispatch();
+  const handleDelete = (name) => {
+    dispatch(deleteWorkout(name));
+  }
+
   return(
     <div className="workoutCard" id="cards" onMouseEnter={() => displayInfo(array)} onMouseLeave={() => collapseCard()}>
-      <h1 className="cardName">{workoutName}</h1>
+      <h1 className="cardName">{name}</h1>
       <div id="cardContainer">
       </div>
+      <button id='deleteButton' onClick={handleDelete} />
     </div>
   )
 }
