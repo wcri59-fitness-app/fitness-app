@@ -47,6 +47,7 @@ app.post('/signup', (req, res) => {
 })
 
 //end point for logins
+// logging in and out? how to make persisting session?
 app.get('/login', (req, res) => {
 const {username, password} = req.body;
 const loginQuery = 'SELECT * FROM Users WHERE username = $1 AND password = $2';
