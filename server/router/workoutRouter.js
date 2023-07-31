@@ -20,7 +20,8 @@ router.get("/", (req,res) => {
 // we would need to match the user_id to workout, how would we get the user_id during their session?
 // authentication?
 
-router.post()
+// needs to have a defined endpoint otherwise app crashes
+// router.post()
 router.post("/", async (req, res, next) => {
     try {
         const currentDate = new Date().toISOString().split('T')[0];
