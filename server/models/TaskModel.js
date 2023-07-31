@@ -6,6 +6,7 @@ const pool = new Pool({
   connectionString: myURI,
 });
 
+// don't need the connect message anymore, the query executions provide console logs
 // pool.on('connect', () => {
 //   console.log('Connected to PostgreSQL database');
 // });

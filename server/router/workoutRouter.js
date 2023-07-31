@@ -13,12 +13,12 @@ const db = require ('../models/TaskModel');
 // users are connected to the workouts on th eworkout table.
 // just need to know how the data is sent to backend so that way we can send it to db and send to front end
 
-router.get("/", async (req,res) => {
+router.get("/", async (req, res, next) => {
     // testing to see if the db connects
     // const test = await db.query('SELECT * FROM Workouts');
     try {
         const {user_id} = req.body;
-        const exercises = await db.query('SELECT user_id, Workouts.workout_id FROM Workouts LEFT JOIN WorkoutExercise ON Workouts.workout_id = WorkoutExercise.workout_id');
+        const exercises = await db.query(`SELECT user_id, Workouts.workout_id FROM Workouts LEFT JOIN WorkoutExercise ON Workouts.workout_id = WorkoutExercise.workout_id WHERE Workouts.workout_id = ${user_id}`);
         res.status(200).json(exercises.rows);
     }
     catch (error) {
@@ -31,10 +31,11 @@ router.get("/", async (req,res) => {
 
 // we would need to match the user_id to workout, how would we get the user_id during their session?
 // authentication?
+// store cookie after login?
 
 // needs to have a defined endpoint otherwise app crashes
 // router.post()
-router.post("/", async (req, res, next) => {
+router.post("/add", async (req, res, next) => {
     try {
         const currentDate = new Date().toISOString().split('T')[0];
         const workoutQuery = "INSERT INTO Workouts (user_id, workout_date) VALUES ($1, $2)";
