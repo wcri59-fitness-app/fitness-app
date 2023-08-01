@@ -15,8 +15,8 @@ function displayInfo(array){
   //const exerciseArr = [];
   // console.log(userId)
   let id="cardContainer"
-  document.getElementById(id).style.display = 'flex';
-  document.getElementById(id).innerHTML = 'Loading. . . '
+  // document.getElementById(id).style.display = 'flex';
+  // document.getElementById(id).innerHTML = 'Loading. . . '
   populateCard(array);
   return
 }
@@ -27,32 +27,29 @@ function populateCard(array){
   //  It will then populate a div for each workout
   //  It will then store them in an array, and then return the array
   */ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  document.getElementById('cardContainer').innerHTML = ''
-  array.map((el) => {
-    console.log(el)
-      document.getElementById('cardContainer').innerHTML += 
       //this just adds an exercise element for each element. &nbsp; is just a way to hardcode spaces
-`        <div class=exercise> <strong>${el.name.toUpperCase()}</strong> <div class=randp><div class=reps><strong>Reps</strong>: ${el.reps} </div><div>&nbsp;&nbsp;x&nbsp;&nbsp;</div><div class=sets><strong>Sets</strong>: ${el.sets}</div></div></div> `
-    }
-  )
+      array.forEach(el => {
+        cards.push(<div class='exercise'> <strong>{el.exercise.toUpperCase()}</strong> <div class='randp'><div class='reps'><strong>Reps</strong>: {el.reps} </div><div>&nbsp;&nbsp;x&nbsp;&nbsp;</div><div class='sets'><strong>Sets</strong>: {el.sets}</div></div></div> )
+      })
 }
 
-function collapseCard(){
-  document.getElementById('cardContainer').style.display = 'none';
-}
+// function collapseCard(){
+//   document.getElementById('cardContainer').style.display = 'none';
+// }
 
 const WorkoutCard = ({array, name}) => {
   const dispatch = useDispatch();
   const handleDelete = (name) => {
     dispatch(deleteWorkout(name));
   }
-
+  populateCard(array)
   return(
-    <div className="workoutCard" id="cards" onMouseEnter={() => displayInfo(array)} onMouseLeave={() => collapseCard()}>
+    <div className="workoutCard" id="cards">
       <h1 className="cardName">{name}</h1>
       <div id="cardContainer">
+        {cards}
       </div>
-      <button id='deleteButton' onClick={handleDelete} />
+      {/* <button id='deleteButton' onClick={handleDelete} /> */}
     </div>
   )
 }

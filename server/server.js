@@ -43,7 +43,7 @@ app.post('/signup', userController.createUser, (req, res) => {
 //end point for logins
 // logging in and out? how to make persisting session?
 app.post('/login', userController.verifyUser, cookieController.setCookie, (req, res) => {
-  res.status(200);
+  res.redirect(200, '/');
 })
 
 

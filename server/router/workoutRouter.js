@@ -39,6 +39,7 @@ router.get("/", async (req, res, next) => {
             JOIN Exercise AS e ON we.exercise_id = e.exercise_id
             JOIN setandreps AS ed ON we.sar_id = ed.sar_id WHERE w.user_id = ${userID}`);
         // const exercises = await db.query('SELECT * FROM WorkoutExercise');
+        // console.log(exercises.rows);
         res.status(200).json(exercises.rows); // .rows
     }
     catch (error) {
@@ -48,6 +49,7 @@ router.get("/", async (req, res, next) => {
         })
     }
 })
+
 
 // we would need to match the user_id to workout, how would we get the user_id during their session?
 // authentication?
