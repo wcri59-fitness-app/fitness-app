@@ -16,23 +16,23 @@ export const workoutSlice = createSlice({
       addWorkout: (state, action) => {
         /* update the current workout to the newly created workout */
         state.currentWorkout = action.payload;
-
+        console.log(action.payload);
         /** make a fetch post request to db with action payload */
-        fetch('/add', {
+        fetch('/workout/add', {
             method: 'POST',
-            headers: { 'content-type': 'Application/JSON' },
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify(action.payload)
         })
-        .then(res => res.json())
-        .then(data => {
-            // state.totalWorkouts = data;      expecting to receive back updated total workouts for rerender
-            console.log(data)                   //otherwise, console.log res.status to ensure good request
-        })
+        // .then(res => res.json())
+        // .then(data => {
+        //     state.totalWorkouts = data;    //  expecting to receive back updated total workouts for rerender
+        //     console.log(data)                   //otherwise, console.log res.status to ensure good request
+        // })
         .catch(err => console.log('AddWorkout fetch /someroute/: ERROR: ', err));
       },
       deleteWorkout: (state, action) => {
         /* action contains workoutId that gets sent to database for deletion */
-        fetch('someroute', {
+        fetch('/workout/delete', {
             method: 'DELETE',
             headers: { 'content-type': 'Application/JSON' },
             body: JSON.stringify(action.payload)

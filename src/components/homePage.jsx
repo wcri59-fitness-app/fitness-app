@@ -23,14 +23,18 @@ const Home = ({ userId }) => {
   dispatch(loadWorkouts(workouts));
 
   const cards = [];
-  for(const [key, value] of Object.entries(workouts)) {
-    cards.push(<WorkoutCard array={value} name={key}/>)
+  if(workouts !== undefined){
+    for(const [key, value] of Object.entries(workouts)) {
+      console.log(key, value);
+      cards.push(<WorkoutCard array={value} name={key}/>)
+    }
   }
 
   return (
     <div id="homePage">
+          <div id="homeHeader"><h1>Home</h1></div>
       {cards}
-      <button id="addButton" onClick={() => navigate("/WorkoutCreator")} />
+      <button id="addButton" onClick={() => navigate("/CreateWorkout")} >ADD WORKOUT</button>
     </div>
   )
 }

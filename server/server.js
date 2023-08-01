@@ -34,13 +34,16 @@ app.use('/workout', workoutRouter);
 //end point for signups
 // do we need routers for signup and login? 
 app.post('/signup', userController.createUser, (req, res) => {
-res.redirect('login').status(200)
+  // res.redirect(200, '/Login')
+  res.status(200);
 })
+
+
 
 //end point for logins
 // logging in and out? how to make persisting session?
-app.get('/login', userController.verifyUser, cookieController.setCookie, (req, res) => {
-res.redirect('/').status(200)
+app.post('/login', userController.verifyUser, cookieController.setCookie, (req, res) => {
+  res.status(200);
 })
 
 

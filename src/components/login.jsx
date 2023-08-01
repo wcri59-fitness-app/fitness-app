@@ -6,14 +6,9 @@ const Login = () => {
   function loginReq(e){
     if(e.key === 'Enter'){
       if(document.getElementById("username").value !== null && document.getElementById("password").value !== null){
-        fetch('/login', {method:"GET", params:{username:document.getElementById("username").value, password:document.getElementById('password').value}})
+        fetch('/login', {method:"POST", body: JSON.stringify({username:document.getElementById("username").value, password:document.getElementById('password').value}), headers: {'Content-Type': "application/json"}})
         .then((response) => {
-          response.json()
-          .then((result) => {
-            document.getElementById("username").value=null
-            document.getElementById("password").value=null
-            console.log(result)
-          })
+          navigate('/Home')
         })
       }
     }

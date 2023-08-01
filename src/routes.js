@@ -17,8 +17,7 @@ function getCookie(cName) {
   return res
 }
 function checklogin(){
-  console.log('ran')
-  if(getCookie('userId') !== undefined){
+  if(getCookie('userID') !== undefined){
     return <Home userId = {getCookie('userID')}/>
   }
   else{
@@ -31,8 +30,8 @@ const NewRoutes = [
   <Route path='/Home' element={<Home userId = {getCookie('userID')}/>}/>,
   <Route path='/CreateWorkout' element={<WorkoutCreator/>}/>,
   <Route path='/Login' element={<Login/>}/>,
-  <Route path='Signup' element={<Signup/>} />,
-  <Route path='/' element={<Login/>}/>
+  <Route path='/Signup' element={<Signup/>} />,
+
 ]
 
 export default NewRoutes;

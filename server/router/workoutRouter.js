@@ -18,7 +18,8 @@ router.get("/", async (req, res, next) => {
     // const test = await db.query('SELECT * FROM Workouts');
     try {
         // const {user_id} = req.params;
-        user_id = 1;
+        const { userID } = req.cookies;
+        // return res.status(200).json([]);
         const exercises = await db.query(`
             SELECT 
             we.workout_id,
@@ -26,6 +27,7 @@ router.get("/", async (req, res, next) => {
             we.sar_id,
             we.weight_used,
             w.workout_date,
+            w.workout_name, 
             u.user_id,
             u.username,
             e.exercise,
@@ -35,7 +37,7 @@ router.get("/", async (req, res, next) => {
             JOIN Workouts AS w ON we.workout_id = w.workout_id
             JOIN Users AS u ON w.user_id = u.user_id
             JOIN Exercise AS e ON we.exercise_id = e.exercise_id
-            JOIN setandreps AS ed ON we.sar_id = ed.sar_id; WHERE w.user_id = ${user_id}`);
+            JOIN setandreps AS ed ON we.sar_id = ed.sar_id WHERE w.user_id = ${userID}`);
         // const exercises = await db.query('SELECT * FROM WorkoutExercise');
         res.status(200).json(exercises.rows); // .rows
     }
@@ -56,17 +58,16 @@ router.get("/", async (req, res, next) => {
 router.post("/add", async (req, res, next) => {
     try {
         const { userID } = req.cookies;
-        const { addObj } = req.body;
-        const workoutName = Object.keys(addObj);
+        const addObj = req.body;
+
+        console.log(userID, addObj);
+        const workoutName = Object.keys(addObj)[0];
 
         const currentDate = new Date().toISOString().split('T')[0];
         const workoutQuery = "INSERT INTO Workouts (user_id, workout_date, workout_name) VALUES ($1, $2, $3) RETURNING workout_id";
         const workoutValues = [userID, currentDate, workoutName];
         const workoutResult = await db.query(workoutQuery, workoutValues);
         const workout_id = workoutResult.rows[0].workout_id;
-
-        const sarIDs = [];
-        const exerciseIDs = [];
 
         addObj[workoutName].forEach(async (exerciseObj) => {
             const { exerciseName, reps, sets } = exerciseObj;
@@ -79,7 +80,7 @@ router.post("/add", async (req, res, next) => {
             const ExerciseResult = await db.query(ExerciseQuery, [exerciseName]);
             const exercise_id = ExerciseResult.rows[0].exercise_id;
 
-            const workoutExerciseQuery = `INSERT INTO WorkoutExercise (workout_id, exercise_id, sar_id) VALUES ($1, $2, $3, $4)`;
+            const workoutExerciseQuery = `INSERT INTO WorkoutExercise (workout_id, exercise_id, sar_id) VALUES ($1, $2, $3)`;
             const workoutExerciseResult = await db.query(workoutExerciseQuery, [workout_id, exercise_id, sar_id]);
         });
 
@@ -100,7 +101,7 @@ router.post("/add", async (req, res, next) => {
         // const workoutExerciseResult = await db.query(workoutExerciseQuery, [workout_id, exercise_id, sar_id, weight_used]);
         // console.log(workoutExerciseResult);
         
-        res.redirect(200,'http://localhost:3000/Home');
+        // res.redirect(200,'http://localhost:3000/Home');
         
        return next();
     } catch (error) {

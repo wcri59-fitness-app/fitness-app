@@ -3,8 +3,12 @@
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import ExerciseCreator from './ExerciseCreator.jsx';
-import { addWorkout } from '../workoutSlice.js'
+import { addWorkout } from '../workoutSlice.js';
+import { useNavigate } from "react-router-dom";
+
+
 const WorkoutCreator = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     //Local state for managing dynamic exercise creation
     const [exercises, setExercises] = useState([]);
@@ -40,7 +44,7 @@ const WorkoutCreator = () => {
      *      workoutName input field is cleared.
      */
     const handleWorkoutDispatch = (workoutName) => {
-        dispatch(addWorkout({ workoutName: exercises }));
+        dispatch(addWorkout({ [workoutName]: exercises }));
         setExercises([]);
         document.querySelector('#workoutName').value = '';
     }
@@ -51,7 +55,10 @@ const WorkoutCreator = () => {
             <input type='text' placeholder='workout name...' id='workoutName'/> 
             {exercises.map((exercise, index) => <ExerciseCreator key={index} data={exercise} onChangeFunc={(updatedExercise) => handleChangeExercise(index, updatedExercise)}/>)}
             <button id='addExerciseBtn' onClick={handleAddExercises}><strong>+</strong></button>
-            <button id='saveWorkoutBtn' onClick={() => handleWorkoutDispatch(document.querySelector('#workoutName').value)}><strong>save</strong></button>
+            <button id='saveWorkoutBtn' onClick={() => {
+                handleWorkoutDispatch(document.querySelector('#workoutName').value);
+                navigate('/Home');
+        }}><strong>save</strong></button>
         </div>
     );
 };
